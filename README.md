@@ -45,12 +45,12 @@ More details see `environment.yml`.
 
 **Inference DROID raw data:**
 ```python
-inference_DROID_raw_file.py
+python inference_DROID_raw_file.py
 ```
 
 **Inference panda dataset with ground truth camera info:**
 ```python
-inference_panda_dataset.py
+python inference_panda_dataset.py
 ```
 
 - Optional args: `confidence_threshold`
@@ -63,7 +63,7 @@ A variation of CtRNet-X can integrate depth maps from an RGB-D camera during inf
 
  **Use depth input to refine estimation:**
 ```python
-inference_video_depth.py
+python inference_video_depth.py
 ``` 
 
 We use Huber loss with delta 0.1, feel free to try your own depth data with different losses!
