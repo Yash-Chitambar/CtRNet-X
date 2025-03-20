@@ -1,8 +1,18 @@
-# CtRNet-X: Camera-to-Robot Pose Estimation in Real-world Conditions Using a Single Camera
+# [CtRNet-X: Camera-to-Robot Pose Estimation in Real-world Conditions Using a Single Camera](https://sites.google.com/ucsd.edu/ctrnet-x/home)
 
-Paper https://arxiv.org/pdf/2409.10441
+Jingpei Lu*, Zekai Liang*, Tristin Xie, Florian Ritcher, Shan Lin, Sainan Liu, Michael C. Yip
 
-Website https://sites.google.com/ucsd.edu/ctrnet-x/home
+University of California, San Diego
+
+ICRA 2025
+
+[[arXiv]](https://arxiv.org/pdf/2409.10441) [[Project page]](https://sites.google.com/ucsd.edu/ctrnet-x/home)
+
+
+## Highlight
+CtRNet-X is a novel framework capable of estimating the robot pose with partially visible robot manipulators. Our approach leverages the Vision-Language Models for fine-grained robot components detection, and integrates it into a keypoint-based pose estimation network, which enables more robust performance in varied operational conditions. 
+![demo](assets/demo_3.gif)
+
 
 ### Dependencies
 Recommend set up the environment using Anaconda.
@@ -18,10 +28,6 @@ Code is developed and tested on Ubuntu 22.04.
 
 More details see `environment.yml`.
 
-## Usage
-- Run `inference_DROID_raw_file.py` to inference the DROID raw data.
-- Run `inference_panda_dataset.py` to inference our panda dataset with ground truth camera info.
-- Optional args: `confidence_threshold`
 
 ## Dataset
 
@@ -35,8 +41,42 @@ More details see `environment.yml`.
 [Weights for Camera-to-Robot estimation](https://drive.google.com/file/d/1H6nJ-pXfEG4WzRF-tT74ti4mbsB5SjPU/view?usp=drive_link)
 
 
+## Quick Start
 
+**Inference DROID raw data:**
+```python
+inference_DROID_raw_file.py
+```
 
+**Inference panda dataset with ground truth camera info:**
+```python
+inference_panda_dataset.py
+```
+
+- Optional args: `confidence_threshold`
+
+## Working with RGBD input
+
+A variation of CtRNet-X can integrate depth maps from an RGB-D camera during inference by comparing measured depth to rendered depth from the differentiable renderer. Here we use DROID as example.
+
+ ![raw](assets/raw_depth(1).gif)  ![render](assets/depth_rendering(1).gif)  
+
+ **Use depth input to refine estimation:**
+```python
+inference_video_depth.py
+``` 
+
+We use Huber loss with delta 0.1, feel free to try your own depth data with different losses!
+
+## Citation
+```bibtex
+@article{lu2024ctrnet,
+  title={CtRNet-X: Camera-to-Robot Pose Estimation in Real-world Conditions Using a Single Camera},
+  author={Lu, Jingpei and Liang, Zekai and Xie, Tristin and Ritcher, Florian and Lin, Shan and Liu, Sainan and Yip, Michael C},
+  journal={arXiv preprint arXiv:2409.10441},
+  year={2024}
+}
+```
 
 
 

@@ -20,8 +20,8 @@ parser = argparse.ArgumentParser()
 
 args = parser.parse_args("")
 args.confidence_threshold = 0.45
-args.data_folder = "" # your local base directory
-args.base_dir = "" # panda dataset directory 
+args.data_folder = "" # panda dataset directory 
+args.base_dir = "" # base directory
 args.use_gpu = True
 args.trained_on_multi_gpus = True
 args.keypoint_seg_model_path = os.path.join(args.base_dir,"outputs/panda-orb/net_epoch_260.pth")

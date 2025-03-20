@@ -64,10 +64,6 @@ mesh_files = [base_dir + "/urdfs/Panda/meshes/visual/link0/link0.obj",
             base_dir + "/urdfs/Panda/meshes/visual/link7/link7.obj",
             ]
 
-
-
-
-
 def preprocess_img(cv_img,args):
     image_pil = PILImage.fromarray(cv_img)
     width, height = image_pil.size
@@ -318,45 +314,42 @@ def get_valid_videos(base_dir):
 from video_to_frames import extract_frames
 import glob
 
-gt_extr = False
+if __name__ == "__main__":
+    gt_extr = False
+    raw_dir = args.raw_dir
 
+    for idx, base_dir in tqdm(enumerate(os.listdir(raw_dir))):
 
+        save_path = os.path.join("DROID_raw_processing/processed_files/AUTOLab", os.path.basename(raw_dir), os.path.basename(base_dir))
+        os.makedirs(save_path, exist_ok = True)
+        full_base_dir = os.path.join(raw_dir, base_dir)
+        mp4_files, svo_files = get_valid_videos(full_base_dir)
 
+        for i, video_path in enumerate(mp4_files):
+            video_path = mp4_files[i] if mp4_files else None
 
-raw_dir = args.raw_dir
+            h5_path = os.path.join( full_base_dir, "trajectory.h5")
+            print(f"checking h5 path: {h5_path}")
+            svo_path = svo_files[i] if svo_files else None
 
-for idx, base_dir in tqdm(enumerate(os.listdir(raw_dir))):
+            frame_dir = "DROID_ds/frames_dir25"
 
-    save_path = os.path.join("DROID_raw_processing/processed_files/AUTOLab", os.path.basename(raw_dir), os.path.basename(base_dir))
-    os.makedirs(save_path, exist_ok = True)
-    full_base_dir = os.path.join(raw_dir, base_dir)
-    mp4_files, svo_files = get_valid_videos(full_base_dir)
+            if os.path.exists(frame_dir):
+                shutil.rmtree(frame_dir)
+            extract_frames(video_path, frame_dir) 
 
-    for i, video_path in enumerate(mp4_files):
-        video_path = mp4_files[i] if mp4_files else None
+            
+            if gt_extr == True:
+                output_video_path = None 
+            else:
+                output_video_path = os.path.join(save_path, os.path.basename(video_path)) 
 
-        h5_path = os.path.join( full_base_dir, "trajectory.h5")
-        print(f"checking h5 path: {h5_path}")
-        svo_path = svo_files[i] if svo_files else None
+            confidence_threshold = args.confidence_threshold
+            # print(f"checking output_video_path and video path:{output_video_path}, {video_path}, {os.path.basename(video_path)}")
+            process_video_sequence(video_path, frame_dir, output_video_path, h5_path, args, svo_path, confidence_threshold, gt_extr)
 
-        frame_dir = "DROID_ds/frames_dir25"
+            print(f"video saved at {output_video_path}")
 
-        if os.path.exists(frame_dir):
-            shutil.rmtree(frame_dir)
-        extract_frames(video_path, frame_dir) 
-
-        
-        if gt_extr == True:
-            output_video_path = None 
-        else:
-            output_video_path = os.path.join(save_path, os.path.basename(video_path)) 
-
-        confidence_threshold = args.confidence_threshold
-        # print(f"checking output_video_path and video path:{output_video_path}, {video_path}, {os.path.basename(video_path)}")
-        process_video_sequence(video_path, frame_dir, output_video_path, h5_path, args, svo_path, confidence_threshold, gt_extr)
-
-        print(f"video saved at {output_video_path}")
-
-"When inference on a new video sequence: # just need to change the base folder and video index"
+    "When inference on a new video sequence: # just need to change the base folder and video index"
 
 

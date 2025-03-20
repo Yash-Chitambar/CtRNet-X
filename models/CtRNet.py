@@ -175,6 +175,22 @@ class CtRNet(torch.nn.Module):
         
         return rendered_image[..., 3]
 
+    def render_depth(self, cTr, robot_mesh, robot_renderer):
+        # cTr: (6)
+        # img: (1, H, W)
+
+        R = kornia.geometry.conversions.angle_axis_to_rotation_matrix(cTr[:3][None])  # (1, 3, 3)
+        R = torch.transpose(R,1,2)
+        #R = to_valid_R_batch(R)
+        T = cTr[3:][None]   # (1, 3)
+
+        # print(f"checking image dimensions: {rendered_image.shape}")    #[1, 180, 320, 4]  last is alpha channel
+        fragments = robot_renderer.depth_renderer(meshes_world=robot_mesh, R = R, T = T)
+        depth_map = fragments.zbuf
+        
+        return depth_map
+
+    
     
 
     def train_on_batch(self, img, joint_angles, robot_renderer, criterions, phase='train'):
