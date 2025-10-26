@@ -120,7 +120,7 @@ dependencies:
     - argon2-cffi==21.1.0
     - attrdict==2.0.1
     - attrs==21.2.0
-    - av==9.2.0
+    - av==12.0.0
     - babel==2.9.1
     - backcall==0.2.0
     - bleach==4.1.0
@@ -203,7 +203,7 @@ dependencies:
     - rtb-data==1.0.0
     - ruamel-yaml==0.17.21
     - ruamel-yaml-clib==0.2.6
-    - scikit-fmm==2022.3.26
+    - scikit-fmm==2025.6.23 #pip install if not working
     - send2trash==1.8.0
     - sniffio==1.2.0
     - spatialgeometry==1.0.1
